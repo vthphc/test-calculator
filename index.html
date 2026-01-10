@@ -108,6 +108,15 @@
             background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
         }
 
+        .button.undo {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            font-size: 24px;
+        }
+
+        .button.undo:hover {
+            background: linear-gradient(135deg, #fee140 0%, #fa709a 100%);
+        }
+
         .history {
             margin-top: 20px;
             padding-top: 20px;
@@ -164,20 +173,21 @@
         <h1>Test Score Calculator</h1>
         <div class="display" id="display">0</div>
         <div class="buttons-grid">
-            <button class="button" onclick="addScore(0.25)">0.25</button>
-            <button class="button" onclick="addScore(0.5)">0.5</button>
-            <button class="button" onclick="addScore(0.75)">0.75</button>
-            <button class="button" onclick="addScore(1)">1</button>
-            <button class="button" onclick="addScore(1.25)">1.25</button>
-            <button class="button" onclick="addScore(1.5)">1.5</button>
-            <button class="button" onclick="addScore(1.75)">1.75</button>
-            <button class="button" onclick="addScore(2)">2</button>
             <button class="button" onclick="addScore(2.5)">2.5</button>
             <button class="button" onclick="addScore(3)">3</button>
             <button class="button" onclick="addScore(4)">4</button>
             <button class="button" onclick="addScore(5)">5</button>
+            <button class="button" onclick="addScore(1.25)">1.25</button>
+            <button class="button" onclick="addScore(1.5)">1.5</button>
+            <button class="button" onclick="addScore(1.75)">1.75</button>
+            <button class="button" onclick="addScore(2)">2</button>
+            <button class="button" onclick="addScore(0.25)">0.25</button>
+            <button class="button" onclick="addScore(0.5)">0.5</button>
+            <button class="button" onclick="addScore(0.75)">0.75</button>
+            <button class="button" onclick="addScore(1)">1</button>
             <button class="button clear" onclick="clearScore()">Clear</button>
             <button class="button zero" onclick="addScore(0)">0</button>
+            <button class="button undo" onclick="undoLast()">⌫</button>
         </div>
         <div class="history">
             <div class="history-title">Recent additions:</div>
@@ -222,6 +232,23 @@
             setTimeout(() => {
                 display.style.background = '#f8f9fa';
             }, 300);
+        }
+
+        function undoLast() {
+            if (history.length > 0) {
+                const lastEntry = history.shift();
+                const value = parseFloat(lastEntry.substring(1));
+                total -= value;
+                updateDisplay();
+                updateHistory();
+                
+                // Visual feedback for undo
+                const display = document.getElementById('display');
+                display.style.background = '#d1ecf1';
+                setTimeout(() => {
+                    display.style.background = '#f8f9fa';
+                }, 300);
+            }
         }
 
         function updateHistory() {
